@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import Product, Discount, OrderItem, Order
+from .models import Product, Discount, Order, OrderItem, CartItem
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'sku', 'price']
+        fields = ['id', 'sku', 'price']  # Include other product details
 
 class DiscountSerializer(serializers.ModelSerializer):
     class Meta:
@@ -35,3 +35,14 @@ class OrderSerializer(serializers.ModelSerializer):
             OrderItem.objects.create(order=order, **item_data)
         
         return order
+
+class CartItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True)  # Nested serializer for product details
+    total = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CartItem
+        fields = ['id', 'product', 'quantity', 'total']
+
+    def get_total(self, obj):
+        return obj.product.price * obj.quantity

@@ -2,24 +2,28 @@ import { AppBar, Toolbar, Typography, Button, Badge } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useAuth } from '../contexts/AuthContext';
 import Link from 'next/link';
+import { useCart } from '../contexts/CartContext';
 
 export default function Header() {
   const { isAuthenticated, logout } = useAuth();
+  const { cartCount } = useCart();
 
   return (
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          <Link href="/" style={{ color: 'white', textDecoration: 'none' }}>
-            E-Shop
+          <Link href="/" passHref>
+            <span style={{ color: 'white', textDecoration: 'none' }}>
+              E-Shop
+            </span>
           </Link>
         </Typography>
-        <Button color="inherit" component={Link} href="/products">
+        <Button color="inherit" component="a" href="/products">
           Products
         </Button>
         {isAuthenticated ? (
           <>
-            <Button color="inherit" component={Link} href="/dashboard">
+            <Button color="inherit" component="a" href="/dashboard">
               Dashboard
             </Button>
             <Button color="inherit" onClick={logout}>
@@ -27,15 +31,17 @@ export default function Header() {
             </Button>
           </>
         ) : (
-          <Button color="inherit" component={Link} href="/login">
+          <Button color="inherit" component="a" href="/login">
             Login
           </Button>
         )}
-        <Button color="inherit">
-          <Badge badgeContent={0} color="error">
-            <ShoppingCartIcon />
-          </Badge>
-        </Button>
+        <Link href="/cart" passHref>
+          <Button color="inherit">
+            <Badge badgeContent={cartCount} color="error">
+              <ShoppingCartIcon />
+            </Badge>
+          </Button>
+        </Link>
       </Toolbar>
     </AppBar>
   );

@@ -16,6 +16,9 @@ services:
       - run_vol:/var/run
       - cache_vol:/var/cache
       - tmp_vol:/tmp
+      - ./media:/app/media
+      - ./static:/app/static
+      
     env_file:
       - .env.dev
     command: >

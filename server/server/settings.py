@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get(
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.environ.get("DJANGO_DEBUG", default=True))
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     "djoser",
     "drf_yasg",
     "orders",
+    "crm",  # add this
+    "invoice",  # add this
 ]
 
 MIDDLEWARE = [
@@ -163,10 +165,19 @@ CORS_ALLOW_HEADERS = [
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+
+# Important for serving files
+FILE_UPLOAD_PERMISSIONS = 0o644
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from decimal import Decimal
+from django.conf import settings
 
 class Product(models.Model):
     sku = models.IntegerField(unique=True)
@@ -80,3 +81,15 @@ class Order(models.Model):
     def __str__(self):
         discount_str = f" with {self.discount.code}" if self.discount else ""
         return f"Order #{self.order_id}{discount_str} - {self.status}"
+
+class CartItem(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+    session_key = models.CharField(max_length=40, null=True, blank=True)  # Django session key
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.quantity} x {self.product.sku}"
+
+    def get_total(self):
+        return self.product.price * self.quantity

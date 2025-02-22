@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import ProductCard from '../components/ProductCard';
 import api from '../utils/api';
 import { Product } from '../types/product';
+import Banner from '../components/Banner';
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -16,6 +17,7 @@ export default function Home() {
       try {
         const response = await api.get('/api/products/');
         setProducts(response.data.results);
+        console.log(products); // Add this line
         setLoading(false);
       } catch (err) {
         setError('Failed to load products');
@@ -29,6 +31,7 @@ export default function Home() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Header />
+      <Banner /> {/* Add the Banner component here */}
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4, flex: 1 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Featured Products

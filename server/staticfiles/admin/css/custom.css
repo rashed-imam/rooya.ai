@@ -1,0 +1,11 @@
+.field-generated_pdfs .readonly {
+    width: 100%;
+}
+
+.field-generated_pdfs .readonly div {
+    margin-bottom: 10px;
+}
+
+.field-generated_pdfs .readonly a:hover {
+    background-color: #2b5d80 !important;
+} 
